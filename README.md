@@ -1,2 +1,66 @@
-# Methane-Radiolysis
-Python-based Monte Carlo simulation for methane radiolysis that models interaction events, energy transfer, species formation, and daughter electron generation using numba-accelerated computation and pandas-based data analysis.
+# Methane Radiolysis Monte Carlo Simulation
+## Overview
+
+This repository contains a Python-based Monte Carlo simulation for methane radiolysis. The model tracks interaction events, energy transfer, chemical species formation, and generational data of primary and daughter electrons until 1eV. The code is optimized using numba and uses pandas for structured data analysis.
+
+## Features
+
+- Monte Carlo simulation of methane radiolysis events
+
+- Energy deposition and transfer tracking (eV)
+
+- Species creation and reaction accounting
+
+- Daughter electron generation and species tracking
+
+- Performance optimization with numba
+
+
+
+## Requirements
+
+- Python 3.13.2
+
+- numpy
+
+- pandas
+
+- numba
+
+- math
+
+- tqdm
+
+(Optional: matplotlib for analysis and plotting)
+
+## Usages
+
+Two simulation types can be ran - 1. Recording events occurrances of the simulation; 2. Recording events occurrances based on electron generations of the simulation.
+
+1. python3 main.py
+
+2. python3 main_generational.py
+
+## Runtime Notes
+
+Typical runtime depends on:
+
+- Incident electron energy (eV)
+
+- Number of Monte Carlo simulations performed
+
+Higher energies and larger numbers of histories result in longer runtimes. These  have a direct relationship on the number of cross section probabilities are required to be calculated.
+
+## Output
+
+The simulation produces:
+
+- Event-level interaction data
+
+- Species yield
+
+- Energy transfer metrics
+
+- Daughter electron generation data
+
+Outputs are stored as structured data objects (pandas DataFrames) for analysis.
