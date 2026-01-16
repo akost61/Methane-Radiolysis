@@ -1,7 +1,7 @@
 # Methane Radiolysis Monte Carlo Simulation
 ## Overview
 
-This repository contains a Python-based Monte Carlo simulation for methane radiolysis. The model tracks interaction events, energy transfer, chemical species formation, and generational data of primary and daughter electrons until 1eV. The code is optimized using numba and uses pandas for structured data analysis.
+This repository contains a Python-based Monte Carlo simulation for methane radiolysis. The model tracks inelastic events, energy transfer, chemical species formation, and generational data of primary and daughter electrons until 1eV. Radiolysis of methane by electrons from a maximum of 100 keV, 28 different inelastic interaction events including ionization (with and without dissociation), electron impact excitation (neutral dissociation, molecular excitation and photon emission), and electron attachment dissociationThe code is optimized using numba and uses pandas for structured data analysis.
 
 ## Features
 
@@ -51,7 +51,7 @@ Typical runtime depends on:
 
 - Number of Monte Carlo simulations performed
 
-Higher energies and larger numbers of histories result in longer runtimes. These  have a direct relationship on the number of cross section probabilities are required to be calculated.
+Higher energies and larger numbers of histories result in longer runtimes.
 
 ## Output
 
