@@ -2,6 +2,14 @@ import numpy as np
 from numba import jit, njit
 import math
 
+'''
+Parameters used for Electron Attachment Inelastic Event cross section calculations.
+ea : CH₄ + e⁻ -> CH₃* + H⁻
+
+range_ea is used to find what coefficients are used for the cross section calculations. Any energy level above
+the highest value the slope and offset will be used as a power tail.
+
+'''
 
 range_ea = np.array([6,8,12.5])
 

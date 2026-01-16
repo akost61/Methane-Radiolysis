@@ -1,5 +1,26 @@
 import numpy as np
 
+'''
+- Parameters used for Molecular Excitation cross section calculations.
+- ax_nu: vibrational inelastic events coefficients.
+- ax_j: rotational inelastic events coefficients.
+- The first index associated with the type of molecular excitation inelastic event
+- The second index is associated with what range the energy falls between.
+
+Any energy above the highest range value will calculate a power tail with the slope and offset values.
+
+VIBRATIONAL EXCITATION (nu):
+- Four vibrational modes: Nu1, Nu2, Nu3, Nu4
+- Energy ranges defined by range_nu: [0-5 eV], [5-10 eV], [10-17 eV]
+- Energy above 17 eV will use the power law tail.
+
+ROTATIONAL EXCITATION (j):
+- Two rotational transitions: J0→3, J0→4 (ground state J=0 to excited states J=3,4)
+- Energy ranges defined by range_j: [0-7.5 eV], [7.5-30 eV]
+- Energy above 30 eV will use the power law tail.
+
+
+'''
 
 
 range_nu = np.array([0, 5, 10, 17])

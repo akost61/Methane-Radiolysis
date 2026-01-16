@@ -1,5 +1,45 @@
 import numpy as np
+'''
+Parameters used for Photoionization Inelastic Event cross section calculations.
 
+PHOTOIONIZATION REACTIONS:
+ax_pho parameters correspond to the following photoionization channels:
+[0]  :  'Ly-α',
+[1]  : 'Ly-β',
+[2]  :  'Ly-γ',
+[3]  :  'H-α',
+[4]  : 'H-β',
+[5]  :  'H-γ',
+[6]  :  'H-δ',
+[7]  :  'CH G-band',
+[8]  :  'C III',
+[9]  :  'C I',
+[10] :  'C IV'
+
+
+
+COEFFICIENT STRUCTURE:
+ax_pho: Parameters for cross section calculations using empirical fit functions
+  - x: parameter number (1-8 for the photoionization fit formula)
+
+
+ENERGY THRESHOLDS AND RANGES:
+E_th_pho: Photoionization threshold energies (in eV) for each reaction channel
+  - Represents the minimum photon energy required to initiate each photoionization process
+  - Used for graphical representation of cross section onset
+E_max_pho: Upper energy bound for empirical fit region (in eV)
+  - Varies by channel due to different physical behavior at high photon energies
+
+CROSS SECTION CALCULATION:
+Within the fit range (E_th to E_max):
+  - Uses empirical formula with parameters a1-a8
+  - Functional form captures photoionization probability vs photon energy
+  - Extended formula (with a7, a8) used for channels requiring more complex energy dependence
+  
+POWER LAW TAIL:
+For energies above E_max use offset and slope.
+
+'''
 
 
 E_th_pho = np.array([

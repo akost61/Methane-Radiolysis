@@ -1,9 +1,72 @@
 import numpy as np
 from tqdm import tqdm
 from numba import njit, prange
-from cross_section import select_event, events, delta_k, event_names
-min_energy = 1.0
+from cross_section import select_event
+from constants import event_names, delta_k, min_energy
 
+'''
+Monte Carlo Simulation Engine
+
+This module performs Monte Carlo simulations of Electron-CH₄ inelastic interactions,
+tracking secondary electron generation, energy degradation, and event statistics.
+
+STACK OPERATIONS:
+stack_push/stack_pop: LIFO stack management for tracking active electrons
+stack_push_gen/stack_pop_gen: Extended stack tracking both energy and generation number
+
+ENERGY PARTITION:
+ion_event(eV, index): 
+  - Handles ionization energy partitioning between incident and ejected electrons
+  - Uses random sampling from physically-motivated distribution
+  - Returns (eV_old, eV_new) for incident and secondary electrons
+
+ion_gen_event(generation, energy, index):
+  - Extended version tracking generation number for cascade analysis
+  - Increments generation for secondary electron
+  - Returns (eV_new, gen_new, eV_old)
+
+SIMULATION FUNCTIONS:
+
+run_sim(eV, manipulated=-1):
+  - Single simulation starting from incident initial electron energy (eV)
+  - Tracks all 28 event types until all electrons fall below min_energy threshold
+  - Handles ionization (produces 2 electrons), excitation (produces 1 electron), and attachment (terminates electron)
+  - Returns: event_count array, terminating_energy (sub-threshold energy below 1.0eV), electron_attachment_energy (energy absorbed with electron attachment)
+
+run_batch_simulations(eV, storage, manipulated=-1):
+  - Parallelized batch execution using Numba prange
+  - Runs multiple independent cascade simulations
+  - Returns: event counts, terminating energies, attachment energies for entire batch
+
+run_simulations(eV, total_sims, manipulated=-1, chunk_size=500):
+  - High-level interface with progress tracking
+  - Processes simulations in chunks to manage memory
+  - Aggregates results across all simulations
+  - Optional manipulation parameter for sensitivity analysis (10% cross section increase)
+
+GENERATION TRACKING:
+
+sim_generation(eV):
+  - Tracks events by electron generation (primary, secondary, tertiary, etc.)
+  - Records up to 10 generations in gen_data[generation][event_index]
+  - Useful for understanding depth, energy transfer and events caused by generations
+
+run_generation_simulations_batch(eV, total_sims):
+  - Batch execution with generation tracking
+  - Not parallelized to preserve generation statistics
+
+run_generation_simulations(eV, total_sims, chunk_size=500):
+  - High-level interface for generation-resolved simulations
+  - Returns summed generation data across all simulations
+
+UTILITIES:
+combine_data(simulation_results):
+  - Computes cumulative running average of simulation results
+  - Useful for convergence analysis
+
+Stack size set to 20 elements (sufficient for typical depths) as daughter electrons are handled first (dealing in lower energies).
+All energies in eV, event counts are integers.
+'''
 
 @njit
 def stack_push(stack, top, value):
@@ -191,3 +254,8 @@ def run_generation_simulations(eV, total_sims, chunk_size=500):
             pbar.update(n)
 
     return result, terminating_energy_total, electron_attachment_energy_total
+
+def combine_data(simulation_results):
+    cumsum = np.cumsum(simulation_results, axis=0)
+    counts = np.arange(1, len(simulation_results) + 1).reshape(-1, 1)
+    return cumsum / counts

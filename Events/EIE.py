@@ -1,6 +1,26 @@
 import numpy as np
-from numba import jit, njit
-import math
+
+'''
+Parameters used for Electron Impact Excitation Inelastic Event cross section calculations
+
+EXCITATION REACTIONS:
+eie_1 : CH₄ + e⁻ -> CH₃* + H* + e⁻   
+eie_2 : CH₄ + e⁻ -> CH₂* + H₂ + e⁻   
+eie_3 : CH₄ + e⁻ -> CH* + H₂ + H* + e⁻  
+
+
+COEFFICIENT STRUCTURE:
+ax_eie_y: Polynomial coefficients for cross section calculations
+  - x: coefficient order (0-4 for polynomial terms)
+  - y: event type (1, 2, or 3)
+
+EVENT-SPECIFIC DETAILS:
+eie_1: Threshold 7.5 eV, ranges [7.5-17 eV], [17-40 eV], [40-100 eV], power tail for E > 100 eV
+eie_2: Threshold 7.5 eV, ranges [7.5-22 eV], [22-40 eV], power tail for E > 40 eV
+eie_3: Threshold 13 eV, range [13-90 eV], power tail for E > 90 eV
+
+'''
+
 
 range_eie_1 = np.array([7.5,17,40,100])
 
@@ -81,8 +101,3 @@ offset_eie_3 = np.array([-36.077])
 slope_eie_3 = np.array([-0.8511])
 
 params_eie_3 = np.array([a0_eie_3, a1_eie_3, a2_eie_3, a3_eie_3, a4_eie_3])
-
-
-
-
-

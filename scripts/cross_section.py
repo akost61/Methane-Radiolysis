@@ -1,57 +1,56 @@
 import math
 from numba import njit, prange
 import numpy as np
-
-
 from Events.Ionization import params_ion, slope_ion, offset_ion
 from Events.Molecular_Excitation import range_nu, params_nu, range_j, params_j, slope_nu, slope_j, offset_j, offset_nu
 from Events.EIE import range_eie_1, range_eie_2, range_eie_3, params_eie_1,params_eie_2,params_eie_3, offset_eie_1, offset_eie_2, offset_eie_3, slope_eie_1, slope_eie_2, slope_eie_3
 from Events.Electron_Attachment import params_ea, range_ea, offset_ea, slope_ea
 from Events.Photon_Emission import params_pho, slope_pho, offset_pho
+from constants import E_R, sigma_0, min_energy, delta_k
 
-events = np.array(['Ion_1', 'Ion_2', 'Ion_3', 'Ion_4', 'Ion_5', 'Ion_6','Ion_7','EIE_1', 'EIE_2', 'EIE_3', 'EA',
-          'Nu1', 'Nu2', 'Nu3', 'Nu4', 'Jto3', 'Jto4', 'Ly_a', 'Ly_b', 'Ly_g', 'H_a', 'H_b',
-          'H_g', 'H_d', 'CH G-band', 'C3', 'C1', 'C4'])
+'''
+Cross Section Calculation and Event Selection for Methane Electron-Impact Processes
 
-delta_k = np.array([12.60, 14.52, 15.30, 18.28, 20.10, 20.42, 19.67 , 4.68, 4.95, 9.46, 3.93,
-                    3.62e-1, 1.90e-1, 3.74e-1, 1.62e-1, 7.8e-3, 1.3e-2, 10.20, 12.08, 12.75, 1.89,
-                    2.55, 2.86, 3.03, 2.88, 6.48, 7.49, 8.00                    
-                    ])
+This module computes collision cross sections and performs Monte Carlo event selection
+for all 28 inelastic processes in CH₄ electron-impact collisions.
 
-event_names = ['CH₄ + e⁻ -> CH₄⁺ + 2e⁻',
- 'CH₄ + e⁻ -> CH₃⁺ + H* +  2e⁻',
- 'CH₄ + e⁻ -> CH₂⁺ + H₂ +  2e⁻',
- 'CH₄ + e⁻ -> CH₃* + H⁺ +  2e⁻',
- 'CH₄ + e⁻ -> CH⁺ + H₂ + H* +  2e⁻',
- 'CH₄ + e⁻ -> CH₂* + H₂⁺ + 2e⁻',
- 'CH₄ + e⁻ -> C⁺ + 2H₂ + 2e⁻',
- 'CH₄ + e⁻ -> CH₃* + H* + e⁻',
- 'CH₄ + e⁻ -> CH₂* + H₂ + e⁻',
- 'CH₄ + e⁻ -> CH* + H₂ + H* + e⁻',
- 'CH₄ + e⁻ -> CH₃* + H⁻',
- 'mode v₁',
- 'mode v₂',
- 'mode v₃',
- 'mode v₄',
- 'J = 0 to J = 3',
- 'J = 0 to J = 4',
- 'Ly-α',
- 'Ly-β',
- 'Ly-γ',
- 'H-α',
- 'H-β',
- 'H-γ',
- 'H-δ',
- 'CH G-band',
- 'C III',
- 'C I',
- 'C IV']
+CORE FUNCTIONS:
+
+find_range(eV, r):
+  - Determines which energy range bracket contains the given electron energy
+  - Returns range index for piecewise polynomial evaluation
+  - Returns len(r)-1 for energies above highest range (power law tail region)
+
+ME_cs(eV, index, params, range, offset, slope):
+  - Molecular Excitation and Electron Impact Excitation cross section calculator
+  - Used for: vibrational modes, rotational transitions, EIE, and electron attachment
 
 
-# Shared constants
-E_R = 1.36E-02  # Rydberg constant
-sigma_0 = 1.00E-16
-min_energy = 1.0
+photon_cs(eV, index, params, offset, slope):
+  - Photoionization cross section calculator
+  - Uses empirical formula with up to 8 parameters (a1-a8)
+
+
+ion_cs(eV, index, params, offset, slope):
+  - Ionization cross section calculator  
+  - Enforces physical threshold: E_physical_th = max(2*min_energy + delta_k, E_th*1000)
+
+
+cross_section_calc(eV, manipulated=-1):
+  - Computes all 28 normalized cross sections for given electron energy
+  - Cross sections indexed as: [0-6] ionization, [7-9] EIE, [10] attachment, 
+    [11-14] vibrational, [15-16] rotational, [17-27] photon emission
+  - Optional manipulation: increases specified event cross section by 10% for sensitivity analysis
+  - Returns probability distribution (normalized cross sections summing to 1)
+
+select_event(eV, manipulated=-1):
+  - Monte Carlo event selector using cross section probabilities
+  - Generates random number and performs cumulative probability lookup
+  - Returns event index (0-27) for the selected collision process
+  - Returns -1 if no event selected (should not occur with proper normalization)
+
+All functions JIT-compiled with Numba for performance. Energies in eV, cross sections in cm².
+'''
 
 @njit
 def find_range(eV, r):
