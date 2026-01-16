@@ -19,7 +19,7 @@ CORE FUNCTIONS:
 find_range(eV, r):
   - Determines which energy range bracket contains the given electron energy
   - Returns range index for piecewise polynomial evaluation
-  - Returns len(r)-1 for energies above highest range (power law tail region)
+  - Returns -1 for energies above highest range (power law tail region)
 
 ME_cs(eV, index, params, range, offset, slope):
   - Molecular Excitation and Electron Impact Excitation cross section calculator

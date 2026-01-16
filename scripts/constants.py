@@ -17,7 +17,7 @@ Photon emission [17-27]: Lyman series, Balmer series, and carbon emission lines
 
 REACTION PRODUCTS:
 reaction_produced: Maps reactive events to stoichiometric products {species: count}
-  - Notation: ⁺ (cation), ⁻ (anion), * (excited/radical state)
+  - Notation: ⁺ (cation), ⁻ (anion), * (radical state)
 
 ENERGY LOSS:
 delta_k: Energy transferred per collision event (in eV) for each process
