@@ -36,8 +36,9 @@ Within the fit range (E_th to E_max):
   - Functional form captures photoionization probability vs photon energy
   - Extended formula (with a7, a8) used for channels requiring more complex energy dependence
   
-POWER LAW TAIL:
-For energies above E_max use offset and slope.
+FOR E>E_max:
+use behavior of Bethe-Born theory for inelastic processes:
+  - ln(σ) = slope_pho * ln(E) + offset_pho
 
 '''
 

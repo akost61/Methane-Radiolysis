@@ -21,17 +21,16 @@ ax_ion: Parameters for cross section calculations using empirical fit functions
 ENERGY THRESHOLDS AND RANGES:
 E_th_ion: Ionization threshold energies (in keV) for each reaction channel
   - Represents the minimum electron energy required to apply the cross section calculation.
-E_max_ion: Upper energy bound for polynomial fit region (1.0 keV normalized scale for all channels)
-
+E_max_ion: Upper energy bound for the region where the cross section function is fit
+           ( all channels are 1.0 keV )
 CROSS SECTION CALCULATION:
 Within the fit range (E_th to E_max):
   - Uses empirical formula with parameters a1-a6
-  - Functional form captures ionization probability vs electron energy
+  - Functional form captures ionization channel cross section vs electron energy
   
-POWER LAW TAIL:
-For energies above E_max (high energy asymptotic behavior):
-  - log10(σ) = slope_ion * log10(E) + offset_ion
-
+POWER LAW CROSS SECTION FOR > E_max_ion:
+For energies above E_max (high energy asymptotic behavior of Bethe-Born theory for inelastic processes):
+  - ln(σ) = slope_ion * ln(E) + offset_ion
 '''
 
 

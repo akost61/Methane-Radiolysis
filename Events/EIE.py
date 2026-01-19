@@ -1,20 +1,23 @@
 import numpy as np
 
 '''
-Parameters used for Electron Impact Excitation Inelastic Event cross section calculations
+Parameters used for Electron Impact Excitation Inelastic Neutral Dissociation Event cross section calculations
 
-EXCITATION REACTIONS:
+EXCITATION DISSOCIATION REACTIONS: (“ * “ indicates a radical species)
 eie_1 : CH₄ + e⁻ -> CH₃* + H* + e⁻   
 eie_2 : CH₄ + e⁻ -> CH₂* + H₂ + e⁻   
 eie_3 : CH₄ + e⁻ -> CH* + H₂ + H* + e⁻  
 
 
 COEFFICIENT STRUCTURE:
-ax_eie_y: Polynomial coefficients for cross section calculations
+ax_eie_y:  Coefficients for piecewise polynomial cross section calculations over different incident electron energy ranges
   - x: coefficient order (0-4 for polynomial terms)
   - y: event type (1, 2, or 3)
 
-EVENT-SPECIFIC DETAILS:
+Any energy level above the highest range the cross section in modelled by a power law with a slope and offset.
+  
+
+EVENT-SPECIFIC RANGES:
 eie_1: Threshold 7.5 eV, ranges [7.5-17 eV], [17-40 eV], [40-100 eV], power tail for E > 100 eV
 eie_2: Threshold 7.5 eV, ranges [7.5-22 eV], [22-40 eV], power tail for E > 40 eV
 eie_3: Threshold 13 eV, range [13-90 eV], power tail for E > 90 eV

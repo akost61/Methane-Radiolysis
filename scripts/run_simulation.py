@@ -1,8 +1,8 @@
 import numpy as np
 from tqdm import tqdm
 from numba import njit, prange
-from cross_section import select_event
-from constants import event_names, delta_k, min_energy
+from scripts.cross_section import select_event
+from scripts.constants import event_names, delta_k, min_energy
 
 '''
 Monte Carlo Simulation Engine

@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from run_simulation import run_simulations, combine_data
+from run_simulation import run_simulations, run_generation_simulations
 from convergence import create_convergence_graphs
 from constants import event_names, reaction_produced, delta_k
 
@@ -22,18 +22,19 @@ DATA PROCESSING:
 
 create_dataframes(data, electron_attachment_energy):
   - Converts raw simulation data into three analysis perspectives:
-    * df_events: Event frequency counts for all 28 events
+    * df_events: Event frequency counts for all 28 event channels
     * df_energy: Energy transfer per event type (Count × delta_k), except electron attachment is set to the total electron attachment energy
     * df_species: Species production counts aggregated across all reactions
-
+ - Note - electron attachment is different from other events because it includes both changes in the potential energy of the molecules, but also the removal of the electron 
+        and any excess kinetic energy from the simulation
 
 main():
   - Configurable parameters: incident_energy (eV), total_simulations
   - Runs simulation suite and generates diagnostic plots
-  - Validates energy conservation: input energy = transferred energy + terminating energy
+  - Validates energy conservation: input energy = transferred energy + terminating energy (which is associated with each electron's remaining energy after it crosses the 1 eV threshold)
   - Exports three-sheet Excel workbook:
-    * Event_data: Raw event counts
-    * Energy_data: Energy distribution by process
+    * Event_data: Raw counts the 28 different events/channels
+    * Energy_data: Energy distribution for each of 28 different events/channels
     * Species_data: Net species production with stoichiometry
   - File naming: {energy_in_keV}keV_{num_sims}_simulations_results.xlsx
 
@@ -93,6 +94,16 @@ def main():
         df_events.to_excel(writer, sheet_name='Event_data', index=False)
         df_energy.to_excel(writer, sheet_name='Energy_data', index=False)
         df_species.to_excel(writer, sheet_name='Species_data', index=True)
+
+    
+    incident_energy = 100000 #eV
+    total_simulations = 10000
+    data_100kev, terminating_energy, electron_attachment_energy = run_generation_simulations(incident_energy, total_simulations)
+    df_events = pd.DataFrame(data_100kev, columns=event_names)
+    df_events['Total'] = df_events.sum(axis=1)
+    df_events.to_excel(f"./{int(incident_energy/1000)}keV_{total_simulations}_simulations_results.xlsx", sheet_name='generation_data', index=True)
+
+
 
     return 0
 

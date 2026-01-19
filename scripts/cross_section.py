@@ -6,7 +6,7 @@ from Events.Molecular_Excitation import range_nu, params_nu, range_j, params_j, 
 from Events.EIE import range_eie_1, range_eie_2, range_eie_3, params_eie_1,params_eie_2,params_eie_3, offset_eie_1, offset_eie_2, offset_eie_3, slope_eie_1, slope_eie_2, slope_eie_3
 from Events.Electron_Attachment import params_ea, range_ea, offset_ea, slope_ea
 from Events.Photon_Emission import params_pho, slope_pho, offset_pho
-from constants import E_R, sigma_0, min_energy, delta_k
+from scripts.constants import E_R, sigma_0, min_energy, delta_k
 
 '''
 Cross Section Calculation and Event Selection for Methane Electron-Impact Processes
