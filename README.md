@@ -45,6 +45,8 @@ python3 main.py
 
 ## Structure
 
+```
+
 .
 ├── Events/
 │   ├── EIE.py                       # Electron Impact Excitation event parameters
@@ -59,7 +61,7 @@ python3 main.py
     ├── cross_section.py             # Cross-section calculations
     ├── main.py                      # Primary entry point
     └── run_simulation.py            # Simulation execution script
-
+```
 ## Runtime Notes
 
 Typical runtime depends on:
