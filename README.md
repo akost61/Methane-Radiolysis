@@ -47,18 +47,18 @@ python3 main.py
 
 .
 ├── Events/
-│   ├── EIE.py                      # Electron Impact Excitation event paramets
-│   ├── Electron_Attachment.py      # Electron attachment event parameters
-│   ├── Ionization.py               # Ionization event parameters
-│   ├── Molecular_Excitation.py     # Molecular excitation event parameters
-│   └── Photon_Emission.py          # Photon emission event parameters
+│   ├── EIE.py                       # Electron Impact Excitation event parameters
+│   ├── Electron_Attachment.py       # Electron attachment event parameters
+│   ├── Ionization.py                # Ionization event parameters
+│   ├── Molecular_Excitation.py      # Molecular excitation event parameters
+│   └── Photon_Emission.py           # Photon emission event parameters
 │
 └── scripts/
-    ├── constants.py                # Global constants and event definitions
-    ├── convergence.py              # Produce convergence graphs for monte carlo sim
-    ├── cross_section.py            # Cross-section calculations 
-    ├── main.py                     # Primary entry point
-    └── run_simulation.py           # Simulation execution script 
+    ├── constants.py                 # Global constants and event definitions
+    ├── convergence.py               # Produce convergence graphs for monte carlo sim
+    ├── cross_section.py             # Cross-section calculations
+    ├── main.py                      # Primary entry point
+    └── run_simulation.py            # Simulation execution script
 
 ## Runtime Notes
 
