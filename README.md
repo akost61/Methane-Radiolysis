@@ -39,7 +39,7 @@ This repository contains a Python-based Monte Carlo simulation for methane radio
 
 Two simulation types can be ran inside src/monte_carlo_sim  - 1. Recording events occurrances of the simulation; 2. Recording events occurrances based on electron generations of the simulation.
 
-python3 main.py
+python3 -m monte_carlo_sim.main
 
 
 
