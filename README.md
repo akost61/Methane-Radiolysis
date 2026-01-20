@@ -76,15 +76,13 @@ Higher energies and larger numbers of histories result in longer runtimes.
 
 The simulation produces excel sheets:
 
-1. main.py
+main.py
 
 - Event-level interaction data
 
 - Species yield
 
 - Energy transfer metrics
-
-2. main_generation.py
 
 - Daughter electron generation data
 
