@@ -101,5 +101,3 @@ main.py
 
 - Daughter electron generation data (/MethaneRadiolysis/results/100keV_10000_simulations_results.xlsx)
 
-
-Outputs are stored as structured data objects (pandas DataFrames) for analysis.
