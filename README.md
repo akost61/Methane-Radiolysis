@@ -37,7 +37,7 @@ This repository contains a Python-based Monte Carlo simulation for methane radio
 
 ## Usages
 
-Two simulation types can be ran inside the scripts directory - 1. Recording events occurrances of the simulation; 2. Recording events occurrances based on electron generations of the simulation.
+Two simulation types can be ran inside src/monte_carlo_sim  - 1. Recording events occurrances of the simulation; 2. Recording events occurrances based on electron generations of the simulation.
 
 python3 main.py
 
@@ -46,21 +46,32 @@ python3 main.py
 ## Structure
 
 ```
-
-.
-├── Events/
-│   ├── EIE.py                       # Electron Impact Excitation event parameters
-│   ├── Electron_Attachment.py       # Electron attachment event parameters
-│   ├── Ionization.py                # Ionization event parameters
-│   ├── Molecular_Excitation.py      # Molecular excitation event parameters
-│   └── Photon_Emission.py           # Photon emission event parameters
+METHANERADIOLYSIS/
 │
-└── scripts/
-    ├── constants.py                 # Global constants and event definitions
-    ├── convergence.py               # Produce convergence graphs for monte carlo sim
-    ├── cross_section.py             # Cross-section calculations
-    ├── main.py                      # Primary entry point
-    └── run_simulation.py            # Simulation execution script
+├── src/
+│   └── monte_carlo_sim/
+│       ├── events/
+│       │   ├── __init__.py
+│       │   ├── ele.py                   # Electron Impact Excitation event parameters
+│       │   ├── electron_attachment.py   # Electron attachment event parameters
+│       │   ├── ionization.py            # Ionization event parameters
+│       │   ├── molecular_excitation.py  # Molecular excitation event parameters
+│       │   └── photon_emission.py       # Photon emission event parameters
+│       ├── plotting/
+│       │   └── convergence.py
+│       ├── simulation/
+│       │   ├── __init__.py
+│       │   ├── constants.py
+│       │   ├── cross_section.py
+│       │   └── run_simulation.py
+│       ├── __init__.py
+│       └── main.py
+│
+├── results/
+│
+├── LICENSE
+└── README.md
+
 ```
 ## Runtime Notes
 
@@ -74,19 +85,21 @@ Higher energies and larger numbers of histories result in longer runtimes.
 
 ## Output
 
-The simulation produces excel sheets:
+The simulation produces excel sheets, a convergence graph and energy conservation (printed in Terminal) based on the number of simulations (set to 10,000) and energy (set to 100keV):
 
-1. main.py
+main.py
 
-- Event-level interaction data
+- Convergence mean values of each event (/MethaneRadiolysis/results/100keV_mean_sim.pdf)
 
-- Species yield
+- Energy conservation (Terminal)
+  
+- Event-level interaction data (/MethaneRadiolysis/results/100keV_10000_simulations_results.xlsx)
 
-- Energy transfer metrics
+- Species yield (/MethaneRadiolysis/results/100keV_10000_simulations_results.xlsx)
 
-2. main_generation.py
+- Energy transfer metrics (/MethaneRadiolysis/results/100keV_10000_simulations_results.xlsx)
 
-- Daughter electron generation data
+- Daughter electron generation data (/MethaneRadiolysis/results/100keV_10000_simulations_results.xlsx)
 
 
 Outputs are stored as structured data objects (pandas DataFrames) for analysis.
