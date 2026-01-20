@@ -51,27 +51,27 @@ METHANERADIOLYSIS/
 ├── src/
 │   └── monte_carlo_sim/
 │       ├── events/
-│       │   ├── __init__.py
+│       │   ├── __init__.py              # Events module initialization
 │       │   ├── ele.py                   # Electron Impact Excitation event parameters
 │       │   ├── electron_attachment.py   # Electron attachment event parameters
 │       │   ├── ionization.py            # Ionization event parameters
 │       │   ├── molecular_excitation.py  # Molecular excitation event parameters
 │       │   └── photon_emission.py       # Photon emission event parameters
 │       ├── plotting/
-│       │   └── convergence.py
+│       │   └── convergence.py           # Mean convergence plotting functions
 │       ├── simulation/
-│       │   ├── __init__.py
-│       │   ├── constants.py
-│       │   ├── cross_section.py
-│       │   └── run_simulation.py
-│       ├── __init__.py
-│       └── main.py
+│       │   ├── __init__.py              # Simulation module initialization
+│       │   ├── constants.py             # Physical constants and event names
+│       │   ├── cross_section.py         # Cross-section calculations for particle interactions
+│       │   └── run_simulation.py        # Main simulation execution logic
+│       ├── __init__.py                  # Monte Carlo simulation package initialization
+│       └── main.py                      # Entry point for running simulations
 │
-├── results/
+├── results/                             # Output directory for simulation results
 │
-├── LICENSE
-└── README.md
-
+│
+├── LICENSE                              # Project license information
+└── README.md                            # Project documentation and usage guide
 ```
 ## Runtime Notes
 
