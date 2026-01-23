@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "methaneradiolysis"
+version = "1.0.0"
+authors = [{name = "Alex Kostiuk", email = "apkostiu@ualberta.ca"}]
+
+requires-python = ">=3.8"
+dependencies = [
+    "pandas",
+    "numba",
+    "numpy",
+    "tqdm",
+]
+
+
+[project.scripts]
+mrie = "monte_carlo_sim.__main__:main"

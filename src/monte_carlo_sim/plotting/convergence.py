@@ -33,9 +33,7 @@ def create_convergence_graphs(batch_data, initial_eV, total_simulations):
             ax = plt.gca()
             mean_value = mean_data[i]
             plus_2 = mean_value * 1.02
-            minus_2 = mean_value * 0.98
-            print(plus_2, minus_2)
-            
+            minus_2 = mean_value * 0.98            
             plt.title(f'Initial Electron at {int(initial_eV/1000)}keV For {event_names[i]} Mean Occurance vs Simulations Ran')
             plt.xlabel('Simulation Runs')
             plt.ylabel('Mean Occurance')

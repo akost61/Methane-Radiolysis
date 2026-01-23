@@ -2,7 +2,7 @@ import numpy as np
 from tqdm import tqdm
 from numba import njit, prange
 from monte_carlo_sim.simulation.cross_section import select_event
-from monte_carlo_sim.simulation.constants import event_names, delta_k, min_energy
+from monte_carlo_sim.simulation.constants import event_names, delta_k, min_energy_ion
 
 """
 Monte Carlo Simulation Engine
@@ -86,15 +86,13 @@ def ion_event(eV, index):
     u = np.random.rand()
     eV = eV - delta_k[index]
     x_max = (eV) / 2
-    eV_new = (min_energy * x_max) / (x_max - u * (x_max - min_energy))
+    eV_new = (min_energy_ion * x_max) / (x_max - u * (x_max - min_energy_ion))
     eV_old = eV - eV_new
-
-
     return eV_old, eV_new
 
 
 @njit
-def run_sim(eV, manipulated=-1):
+def run_sim(eV, min_energy=1, manipulated=-1):
     E_stack = np.empty(20, dtype=np.float64)
     event_count = np.zeros(28, dtype=np.float64)
     top = 0
@@ -129,30 +127,30 @@ def run_sim(eV, manipulated=-1):
     return event_count, terminating_energy, electron_attachment_energy
 
 @njit(parallel=True)
-def run_batch_simulations(eV, storage, manipulated=-1):
+def run_batch_simulations(eV, storage, min_energy=1, manipulated=-1):
     EA_size = int(storage.shape[0])
     EA = np.empty(EA_size, dtype=np.float64)
     t_e_size = int(storage.shape[0])
     t_e = np.empty(t_e_size, dtype=np.float64)
     for i in prange(storage.shape[0]):
-        storage[i], t_e[i], EA[i] = run_sim(eV, manipulated)
+        storage[i], t_e[i], EA[i] = run_sim(eV, min_energy=min_energy, manipulated=manipulated)
     return storage, t_e, EA
 
-def run_simulations(eV, total_sims, manipulated=-1, chunk_size=500):
-    result = np.zeros((total_sims, 28), dtype=np.int64)
-    terminating_energy_total = 0.0
-    EA_total = 0.0
+def run_simulations(eV, total_sims, min_energy=1, manipulated=-1, chunk_size=500):
+    result = np.zeros((int(total_sims), 28), dtype=np.int64)
+    terminating_energy_total = np.zeros((int(total_sims)), dtype=np.float64)
+    EA_total =  np.zeros((int(total_sims)), dtype=np.float64)
     print(f'Running {eV}eV electron simulations for {total_sims} iterations...')
 
     with tqdm(total=total_sims, unit="sim") as pbar:
         completed = 0
         while completed < total_sims:
-            n = min(chunk_size, total_sims - completed)
+            n = int(min(chunk_size, total_sims - completed))
             temp_storage = np.empty((n, 28), dtype=np.int64)
-            chunk, terminating_energy, EA_chunk = run_batch_simulations(eV, temp_storage, manipulated)
+            chunk, terminating_energy, EA_chunk = run_batch_simulations(eV, temp_storage, min_energy=min_energy, manipulated=manipulated)
             result[completed:completed+n] = chunk
-            terminating_energy_total += terminating_energy
-            EA_total += EA_chunk
+            terminating_energy_total[completed:completed+n] = terminating_energy
+            EA_total[completed:completed+n] = EA_chunk
             completed += n
             pbar.update(n)
 
@@ -178,13 +176,13 @@ def ion_gen_event(generation, energy, index):
     eV = energy - delta_k[index]
     u = np.random.rand()
     x_max = eV / 2
-    eV_new = (min_energy * x_max) / (x_max - u * (x_max - min_energy))
+    eV_new = (min_energy_ion * x_max) / (x_max - u * (x_max - min_energy_ion))
     eV_old = eV - eV_new
 
     return eV_new, gen_new, eV_old
 
 @njit
-def sim_generation(eV):
+def sim_generation(eV, min_energy=1):
     terminating_energy = 0.0
     electron_attachment_energy = 0.0
     
@@ -228,19 +226,19 @@ def sim_generation(eV):
     return gen_data, terminating_energy, electron_attachment_energy
 
 @njit
-def run_generation_simulations_batch(eV, total_sims):
+def run_generation_simulations_batch(eV, total_sims, min_energy=1):
     storage = np.zeros((total_sims, 10, 28), dtype=np.int64)
     terminating_energy_total = 0.0
     electron_attachment_energy_total = 0.0
     for i in range(total_sims):
-        simulation, terminating_energy, electron_attachment_energy = sim_generation(eV)
+        simulation, terminating_energy, electron_attachment_energy = sim_generation(eV, min_energy=min_energy)
         storage[i] = simulation
         terminating_energy_total += terminating_energy
         electron_attachment_energy_total += electron_attachment_energy
     return storage.sum(axis=0), terminating_energy_total, electron_attachment_energy_total
 
 
-def run_generation_simulations(eV, total_sims, chunk_size=500):
+def run_generation_simulations(eV, total_sims, min_energy=1, chunk_size=500):
     result = np.zeros((10, 28), dtype=np.int64)
     terminating_energy_total = 0.0
     electron_attachment_energy_total = 0.0
@@ -249,7 +247,7 @@ def run_generation_simulations(eV, total_sims, chunk_size=500):
         completed = 0
         while completed < total_sims:
             n = min(chunk_size, total_sims - completed)
-            chunk, terminating_energy, electron_attachment_energy = run_generation_simulations_batch(eV, n)
+            chunk, terminating_energy, electron_attachment_energy = run_generation_simulations_batch(eV, n, min_energy=min_energy)
             result += chunk
             terminating_energy_total += terminating_energy
             electron_attachment_energy_total += electron_attachment_energy

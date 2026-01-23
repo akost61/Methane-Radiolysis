@@ -28,7 +28,7 @@ delta_k: Energy transferred per collision event (in eV) for each process
 
 E_R = 1.36E-02  
 sigma_0 = 1.00E-16
-min_energy = 1.0
+min_energy_ion = 1.0
 
 
 
