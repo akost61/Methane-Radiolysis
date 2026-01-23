@@ -25,7 +25,7 @@ This repository contains a Python-based Monte Carlo simulation for methane radio
 
 ### Quick Install
 ```bash
-pip3 install git+https://github.com/akost61/MethaneRadiolysis.git
+pip install git+https://github.com/akost61/MethaneRadiolysis.git
 
 ```
 ### Troubleshooting Installation
