@@ -13,6 +13,9 @@ dependencies = [
     "numba",
     "numpy",
     "tqdm",
+    "wheel",
+    "setuptools"
+
 ]
 
 
