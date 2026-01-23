@@ -16,34 +16,61 @@ This repository contains a Python-based Monte Carlo simulation for methane radio
 - Performance optimization with numba
 
 
-
 ## Requirements
 
-- Python 3.13.2
+- Python >=3.8,<3.13
 
-- numpy
 
-- pandas
+## Installation
 
-- numba
+### Quick Install
+```bash
+pip3 install git+https://github.com/akost61/MethaneRadiolysis.git
 
-- math
+```
+### Troubleshooting Installation
 
-- tqdm
-
-- openpyxl
-
-- matplotlib.pyplot
-
-## Usage
-
-Two simulation types can be ran inside src/monte_carlo_sim  - 1. Recording events occurrances of the simulation; 2. Recording events occurrances based on electron generations of the simulation.
+If installation fails with an error about `llvmlite` or `numba`:
 
 ```bash
-python3 -m monte_carlo_sim.main
+conda create -n methane python=3.11
+conda activate methane
+pip3 install git+https://github.com/akost61/MethaneRadiolysis.git
 ```
 
 
+## Usage
+```bash
+mrie
+```
+
+Follow the prompts to run your simulation.
+- incident energy in eV : the initial energy of the electron
+- cut-off energy in eV : the minimum energy of the electron that the program will no longer track
+- total simulations: the total number of simulations the program will run for
+
+## Output
+
+The simulation produces a folder in your cwd. Inside will be README.txt, results.csv.
+
+### Example Session
+```
+Monte Carlo Methane Radiolysis Simulation
+
+Enter incident energy in eV: 100000
+Enter cut-off energy in eV: 1
+Enter total simulations: 10000
+Select Data Type (Standard / Generational): s
+```
+
+## Output
+
+Results are saved in a timestamped folder in your current directory:
+```
+results_2026-01-23_100.0keV_10000_1/
+├── README.md                    # Simulation parameters and summary
+└── simulation_results.csv       # Detailed output data
+```
 
 ## Structure
 
@@ -53,7 +80,6 @@ METHANERADIOLYSIS/
 ├── src/
 │   └── monte_carlo_sim/
 │       ├── events/
-│       │   ├── __init__.py              # Events module initialization
 │       │   ├── eie.py                   # Electron Impact Excitation event parameters
 │       │   ├── electron_attachment.py   # Electron attachment event parameters
 │       │   ├── ionization.py            # Ionization event parameters
@@ -62,15 +88,16 @@ METHANERADIOLYSIS/
 │       ├── plotting/
 │       │   └── convergence.py           # Mean convergence plotting functions
 │       ├── simulation/
-│       │   ├── __init__.py              # Simulation module initialization
 │       │   ├── constants.py             # Physical constants and event names
 │       │   ├── cross_section.py         # Cross-section calculations for particle interactions
 │       │   └── run_simulation.py        # Main simulation execution logic
-│       ├── __init__.py                  # Monte Carlo simulation package initialization
-│       └── main.py                      # Entry point for running simulations
+│       └── __main__.py                      # Entry point for running simulations
 │
-├── results/                             # Output directory for simulation results
+├── results/                             # Sample results of incident=100_000ev; cut_off=1kev; simulations=10_000
 │
+├── test/                                # Test of program
+│
+├── pyproject.toml                       # build for program
 │
 ├── LICENSE                              # Project license information
 └── README.md                            # Project documentation and usage guide
@@ -84,24 +111,6 @@ Typical runtime depends on:
 - Number of Monte Carlo simulations performed
 
 Higher energies and larger numbers of histories result in longer runtimes.
-
-## Output
-
-The simulation produces excel sheets, a convergence graph and energy conservation (printed in Terminal) based on the number of simulations (set to 10,000) and energy (set to 100keV):
-
-main.py
-
-- Convergence mean values of each event (/MethaneRadiolysis/results/100keV_mean_sim.pdf)
-
-- Energy conservation (Terminal)
-  
-- Event-level interaction data (/MethaneRadiolysis/results/100keV_10000_simulations_results.xlsx)
-
-- Species yield (/MethaneRadiolysis/results/100keV_10000_simulations_results.xlsx)
-
-- Energy transfer metrics (/MethaneRadiolysis/results/100keV_10000_simulations_results.xlsx)
-
-- Daughter electron generation data (/MethaneRadiolysis/results/100keV_10000_simulations_results.xlsx)
 
 
 ## Contact
