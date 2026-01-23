@@ -32,6 +32,8 @@ pip install git+https://github.com/akost61/MethaneRadiolysis.git
 
 If installation fails with an error about `llvmlite` or `numba`:
 
+Install Miniconda(https://www.anaconda.com/download/success)
+
 ```bash
 conda create -n methane python=3.11
 conda activate methane
