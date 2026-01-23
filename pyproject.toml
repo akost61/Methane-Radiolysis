@@ -10,12 +10,8 @@ authors = [{name = "Alex Kostiuk", email = "apkostiu@ualberta.ca"}]
 requires-python = ">=3.8"
 dependencies = [
     "pandas",
-    "numba",
     "numpy",
     "tqdm",
-    "wheel",
-    "setuptools"
-
 ]
 
 
