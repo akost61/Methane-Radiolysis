@@ -1,6 +1,7 @@
 import pandas as pd
 from pathlib import Path
 from datetime import date
+from src.monte_carlo_sim.simulation.constants import event_dict
 
 """
 Methane Radiolysis Simulation - Data Export Module
@@ -66,6 +67,9 @@ def write_s_readme(results_dir,initial_energy, cut_off, simulations,
 
         with open(results_dir / filename, "w", encoding="utf-8") as f:
             f.write("# Standard Simulation Results\n\n")
+            f.write("## Event Definition\n")
+            for code_name, event_name in event_dict.items():
+                f.write(f"{event_name}:({code_name})\n")
             f.write("## Simulation Parameters\n")
             f.write(f"- Initial Energy: {initial_energy} eV\n")
             f.write(f"- Cut-off Energy: {cut_off} eV\n")
@@ -109,6 +113,9 @@ def write_g_readme(results_dir,initial_energy, cut_off, simulations,
 
         with open(results_dir / filename, "w", encoding="utf-8") as f:
             f.write("# Generational Simulation Results\n\n")
+            f.write("## Event Definition\n")
+            for code_name, event_name in event_dict.items():
+                f.write(f"{event_name}:({code_name})\n")
             f.write("## Simulation Parameters\n")
             f.write(f"- Initial Energy: {initial_energy} eV\n")
             f.write(f"- Cut-off Energy: {cut_off} eV\n")

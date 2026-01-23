@@ -1,6 +1,6 @@
 from monte_carlo_sim.file_writing.file_writing import create_results_folder, write_s_csv, write_s_readme, write_g_csv, write_g_readme
 from monte_carlo_sim.simulation.run_simulation import run_simulations, run_generation_simulations
-from monte_carlo_sim.simulation.constants import event_names, delta_k, reaction_produced
+from monte_carlo_sim.simulation.constants import code_names, delta_k, reaction_produced
 
 """
 Methane Radiolysis Simulation - Main Execution Entrypoint
@@ -51,12 +51,12 @@ def main():
     if request_type == 1:
         data, t_e, e_a = run_simulations(incident_energy, total_simulations, cut_off)
         results = create_results_folder(incident_energy, total_simulations, cut_off)
-        write_s_csv(results, data, event_names, t_e, e_a)
+        write_s_csv(results, data, code_names, t_e, e_a)
         write_s_readme(results, incident_energy, cut_off, total_simulations, t_e, e_a)
     else:
         data, t_e, e_a = run_generation_simulations(incident_energy, total_simulations, cut_off)
         results = create_results_folder(incident_energy, total_simulations, cut_off, generational=True)
-        write_g_csv(results, data, event_names)
+        write_g_csv(results, data, code_names)
         write_g_readme(results, incident_energy, cut_off, total_simulations, t_e, e_a)
 
     return

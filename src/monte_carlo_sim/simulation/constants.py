@@ -61,6 +61,26 @@ event_names = ['CH₄ + e⁻ -> CH₄⁺ + 2e⁻',
  'C I',
  'C IV']
 
+code_names = ['Ion_1', 'Ion_2', "Ion_3", 'Ion_4', 'Ion_5', 'Ion_6', 'Ion_7',
+              'EIE_1', "EIE_2", "EIE_3", "EA",
+              "Nu_1", "Nu_2", "Nu_3", "Nu_4",
+              'J = 0 to J = 3',
+              'J = 0 to J = 4', 
+              'Ly-a',
+              'Ly-b',
+              'Ly-g',
+              'H-a',
+              'H-b',
+              'H-g',
+              'H-d',
+              "CH G-band",
+              "C III",
+              "C I",
+              "C IV"
+              ]
+
+event_dict = dict(zip(code_names, event_names))
+
 
 reaction_produced = {
     'CH₄ + e⁻ -> CH₄⁺ + 2e⁻': {'CH₄⁺':1},
