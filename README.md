@@ -102,13 +102,14 @@ METHANERADIOLYSIS/
 │
 ├── results/                             # Sample results of incident=100_000ev; cut_off=1kev; simulations=10_000
 │
-├── test/                                # Test of program
+├── Supplementary Information/                                
 │
 ├── pyproject.toml                       # build for program
 │
 ├── LICENSE                              # Project license information
 └── README.md                            # Project documentation and usage guide
 ```
+
 ## Runtime Notes
 
 Typical runtime depends on:
@@ -118,6 +119,8 @@ Typical runtime depends on:
 - Number of Monte Carlo simulations performed
 
 Higher energies and larger numbers of histories result in longer runtimes.
+
+
 
 
 ## Contact
