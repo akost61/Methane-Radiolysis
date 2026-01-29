@@ -94,6 +94,8 @@ METHANERADIOLYSIS/
 │       │   ├── ionization.py            # Ionization event parameters
 │       │   ├── molecular_excitation.py  # Molecular excitation event parameters
 │       │   └── photon_emission.py       # Photon emission event parameters
+│       ├── file_writing/
+│       │   ├── file_writing.py             # Write files for __main__.py
 │       ├── simulation/
 │       │   ├── constants.py             # Physical constants and event names
 │       │   ├── cross_section.py         # Cross-section calculations for particle interactions
